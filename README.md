@@ -16,10 +16,10 @@ master -- 基础版 （此版本只有最基础的开发环境）
 
 ```git
 # 克隆项目
-git clone https://gitee.com/zhao-wenchao110/Leno-admin.git
+git clone https://gitee.com/zhao-wenchao110/leno-admin-template.git
 
 # 进入项目目录
-cd Leno-admin
+cd leno-admin-template
 
 # 安装依赖
 npm install
