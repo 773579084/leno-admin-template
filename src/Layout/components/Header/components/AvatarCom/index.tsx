@@ -29,7 +29,6 @@ import {
 } from '@ant-design/icons'
 import classes from './index.module.scss'
 import { SketchPicker } from 'react-color'
-import { getConfigKeyAPI } from '@/api/modules/system/config'
 
 const avatarCom = () => {
   const navigate = useNavigate()
@@ -44,16 +43,6 @@ const avatarCom = () => {
 
   useEffect(() => {
     async function setConfig() {
-      const res = await getConfigKeyAPI('sys.index.skinName')
-      const res2 = await getConfigKeyAPI('sys.index.headerTheme')
-      setLayoutSet({
-        theme: res.data.result,
-        headerTheme: res2.data.result,
-      })
-      // 先将参数的主题色赋值，如果有默认颜色则再赋值默认颜色
-      ConfigProvider.config({
-        theme: { primaryColor: res.data.result },
-      })
       if (localStorage.getItem('layout-set')) {
         const layoutSet = JSON.parse(localStorage.getItem('layout-set') as string)
         setLayoutSet(layoutSet)
@@ -97,11 +86,6 @@ const avatarCom = () => {
     },
     {
       key: '2',
-      label: <span>个人中心</span>,
-      onClick: () => navigate('/profile'),
-    },
-    {
-      key: '3',
       label: <span>布局设置</span>,
       onClick: () => setOpen(true),
     },

@@ -8,7 +8,6 @@ import MenuCom from './components/Menu'
 import HeaderCom from './components/Header'
 import ContentCom from './components/Content'
 import TabsCom from './components/Tabs'
-import { AliveScope } from 'react-activation'
 import '@/assets/style/variables.scss'
 import { observer } from 'mobx-react-lite'
 
@@ -63,9 +62,7 @@ const LayoutCom = () => {
       >
         <HeaderCom collapsed={collapsed} setCollapsed={setCollapsed} />
         <TabsCom />
-        <AliveScope>
-          <ContentCom />
-        </AliveScope>
+        <ContentCom />
       </Layout>
     </div>
   )

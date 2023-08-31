@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
 import { HOME_URL } from '@/config/config'
 import useStore from '@/store'
@@ -11,6 +11,7 @@ import Login from '@/views/login'
 import Page404 from '@/views/errMessage/404'
 import Page500 from '@/views/errMessage/500'
 import Layout from '@/Layout'
+import Home from '@/views/home'
 
 /**
  * 路由配置项
@@ -43,6 +44,20 @@ export const rootRouter = [
     },
   },
   {
+    path: '',
+    element: <Layout />,
+    children: [
+      {
+        path: HOME_URL,
+        element: <Home />,
+        meta: {
+          title: '首页',
+          icon: 'home',
+        },
+      },
+    ],
+  },
+  {
     path: '/404',
     element: <Page404 />,
     meta: {
@@ -62,16 +77,7 @@ export const rootRouter = [
   },
 ]
 
-export const Router = observer(() => {
-  const [route, setRoute] = useState(rootRouter)
-  const {
-    useRoutersStore: { dynamicRouters },
-  } = useStore()
-
-  useEffect(() => {
-    rootRouter[0].children = toJS(dynamicRouters)
-    setRoute([...rootRouter])
-  }, [dynamicRouters])
-
-  return useRoutes(route)
-})
+export const Router = () => {
+  const routes = useRoutes(rootRouter)
+  return routes
+}

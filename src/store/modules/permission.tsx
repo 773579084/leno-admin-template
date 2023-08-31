@@ -4,7 +4,6 @@ import { RouteType } from '@/type/modules/system/menu'
 import lazyLoad from '@/routes/utils/lazyLoad'
 import { Navigate } from 'react-router-dom'
 import useStore from '@/store'
-import KeepAlive from 'react-activation'
 
 export default class useRoutersStore {
   dynamicRouters = [] as RouteType[] // 路由表数据
@@ -68,25 +67,6 @@ export default class useRoutersStore {
       if (!router.element) {
         delete router.element
       } else {
-        // 判断 路由需要缓存的进行路由缓存包裹
-        if (router.meta?.noCache) {
-          // 暂时没有解决动态路由的方法，故而动态路由不缓存
-          if (router.path?.indexOf(':') === -1) {
-            router.element = (
-              <KeepAlive
-                name={beforePath + router.path}
-                cacheKey={router.path}
-                saveScrollPosition="screen"
-              >
-                {this.lazyLoadFn(router.element as string)}
-              </KeepAlive>
-            )
-          } else {
-            router.element = this.lazyLoadFn(router.element as string)
-          }
-        } else {
-          router.element = this.lazyLoadFn(router.element as string)
-        }
       }
       // 如果有children，则递归
       if (router.children) this.mapRouter(router.children, (router.path + '/') as string)

@@ -116,14 +116,10 @@
     "webpackbar": "^5.0.2"
   },
   "dependencies": {
-    "@wangeditor/editor": "^5.1.23",
-    "@wangeditor/editor-for-react": "^1.0.6",
     "antd": "^4.24.5",
     "antd-img-crop": "^4.8.0",
     "axios": "^0.27.2",
     "dayjs": "^1.11.6",
-    "echarts": "^5.4.2",
-    "echarts-for-react": "^3.0.2",
     "js-cookie": "^3.0.1",
     "mobx": "^6.6.1",
     "mobx-persist-store": "^1.0.6",

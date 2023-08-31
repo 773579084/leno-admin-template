@@ -39,7 +39,9 @@ const HeaderCom: React.FC<PropsType> = ({ collapsed, setCollapsed }) => {
           <Tooltip title="源码地址">
             <GithubOutlined
               style={{ fontSize: 18, cursor: 'pointer' }}
-              onClick={() => window.open('https://gitee.com/zhao-wenchao110/leno_-admin', '_blank')}
+              onClick={() =>
+                window.open('https://gitee.com/zhao-wenchao110/leno-admin-template', '_blank')
+              }
             />
           </Tooltip>
           <Tooltip title="文档地址">
