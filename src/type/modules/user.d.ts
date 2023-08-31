@@ -20,7 +20,7 @@ export interface IChangePwd {
   oldPwd?: string
 }
 
-//#region  login && registerAPI 接口返回值
+// login && registerAPI 接口返回值
 export interface ILoginApi {
   code: number
   message: string
@@ -77,23 +77,61 @@ export interface IuserInfo {
   createdAt?: string
 }
 
-//#endregion
-
-// props
-export interface IUserProp {
-  nickName?: string
-  phoneNumber?: string
-  email?: string
-  sex?: number
+// 用户个人信息 及 权限角色信息
+export interface IgetInfoType {
+  userInfo: userType
+  roles: string[]
+  permissions: string[]
 }
 
-export interface ICaptchaImageApi {
+export interface IGetUserInfoAPI {
   code: number
   message: string
-  result: IcaptchaImageType
+  result: IgetInfoType
 }
 
-export interface IcaptchaImageType {
-  img: string
-  uuid: string
+export interface getRouterApiType {
+  code: number
+  message: string
+  result?: RouteType[]
+}
+
+export interface RouteType {
+  query?: string | undefined
+  name?: string
+  path?: string
+  perms?: string
+  children?: RouteType[]
+  hidden?: boolean
+  element: string | JSX.Element | React.ReactNode
+  alwaysShow?: boolean
+  meta?: Meta
+}
+
+export interface userType {
+  userId?: number
+  deptId?: number
+  userName?: string
+  nickName?: string
+  userType?: string
+  email?: string
+  phonenumber?: number
+  sex?: string
+  avatar?: string
+  password?: string
+  status?: string
+  delFlag?: string
+  loginIp?: string
+  loginDate?: string | number
+  createBy?: string
+  updateBy?: string
+  remark?: string
+  iat?: string
+  exp?: string
+  createdAt?: string | null
+  updatedAt?: string | null
+  dept?: IdeptType
+  roles?: IroleQueryType[]
+  postIds?: number[]
+  roleIds?: number[]
 }

@@ -6,8 +6,6 @@ import ContentLoading from '@/components/ContentLoading'
 import { useLocation } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import useStore from '@/store'
-import { useEffect } from 'react'
-import { toJS } from 'mobx'
 
 const ContentCom = () => {
   const { pathname } = useLocation()

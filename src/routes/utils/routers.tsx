@@ -1,10 +1,9 @@
 import { useLocation, Navigate } from 'react-router-dom'
 import { getRoutersAPI, getUserAPI } from '@/api/modules/user'
-import { IgetInfoType } from '@/type'
+import { IgetInfoType, RouteType } from '@/type'
 // mobx
 import useStore from '@/store'
 import { getToken } from '@/utils/auth'
-import { RouteType } from '@/type/modules/system/menu'
 
 /**
  * @description 递归查询对应的路由

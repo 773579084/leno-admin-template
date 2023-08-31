@@ -7,7 +7,7 @@ import useStore from '@/store'
 import { toJS } from 'mobx'
 import SvgIcon from '@/components/SvgIcon'
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
-import { RouteType } from '@/type/modules/system/menu'
+import { RouteType } from '@/type'
 import { PropsType } from '@/type'
 
 const MenuCom: React.FC<PropsType> = ({ collapsed }) => {

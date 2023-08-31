@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeAutoObservable } from 'mobx'
-import { RouteType } from '@/type/modules/system/menu'
+import { RouteType } from '@/type'
 import lazyLoad from '@/routes/utils/lazyLoad'
 import { Navigate } from 'react-router-dom'
 import useStore from '@/store'

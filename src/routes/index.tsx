@@ -1,20 +1,17 @@
-import { useEffect, useState, lazy } from 'react'
+import { lazy } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
 import { HOME_URL } from '@/config/config'
-import useStore from '@/store'
-import { observer } from 'mobx-react-lite'
-import { RouteType } from '@/type/modules/system/menu'
-import { toJS } from 'mobx'
+import { RouteType } from '@/type'
+import lazyLoad from '@/routes/utils/lazyLoad'
 
 /* 主干路由页面 */
 import Login from '@/views/login'
 import Page404 from '@/views/errMessage/404'
 import Page500 from '@/views/errMessage/500'
 import Layout from '@/Layout'
-import Home from '@/views/home'
 
 /**
- * 路由配置项
+ * leno-admin 的路由配置项
  *
  * path:'路径'            // 路径，如果不是多级嵌套，可为 ' '
  * hidden:true           // 设置为true时不会出现在侧边栏
@@ -49,7 +46,7 @@ export const rootRouter = [
     children: [
       {
         path: HOME_URL,
-        element: <Home />,
+        element: lazyLoad(lazy(() => import(`@/views/home`))),
         meta: {
           title: '首页',
           icon: 'home',
