@@ -1,33 +1,30 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
-/* ant */
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, message, Input } from 'antd'
 import { loginAPI } from '@/api/modules/user'
 import { ILogin } from '@/type'
-// mobx
-import useStore from '@/store'
 import classes from '../index.module.scss'
+import { setToken } from '@/utils/auth'
 
-const LoginForm = () => {
+const LoginForm = (props: any) => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
 
-  const {
-    useUserStore: { setToken },
-  } = useStore()
+  // props
+  const { loginData, changeIsLogin } = props
 
   //#region  login
   const onFinish = async (data: ILogin) => {
-    const res = await loginAPI(data)
-
-    if (res.data.status === 200) {
-      setToken(res.data.token as string)
-      navigate('/')
-      message.success('登录成功！')
-    } else {
-      message.error(res.data.message)
-    }
+    try {
+      const res = await loginAPI({ ...data })
+      if (res.data.code !== 200) {
+        message.error(res.data.message)
+        return
+      }
+      setToken(res.data.result?.token as string)
+      message.success('登录成功')
+      navigate('/home')
+    } catch (error) {}
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -41,8 +38,8 @@ const LoginForm = () => {
       name="normal_login"
       className={classes['login-form']}
       initialValues={{
-        username: 'admin',
-        password: 123456,
+        userName: loginData.userName,
+        password: loginData.password,
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -51,13 +48,13 @@ const LoginForm = () => {
         <h3 className={classes['title']}>Login</h3>
       </div>
       <Form.Item
-        name="username"
+        name="userName"
         rules={[
           {
             min: 4,
-            max: 8,
+            max: 11,
             required: true,
-            message: '请输入4~8位账号!',
+            message: '请输入4~11位只包含数字字母的账号!',
           },
         ]}
       >
@@ -67,16 +64,16 @@ const LoginForm = () => {
         name="password"
         rules={[
           {
-            pattern: new RegExp('^.{4,8}$'),
+            pattern: new RegExp('^.{4,11}$'),
             required: true,
-            message: '请输入4~8位密码!',
+            message: '请输入4~11位密码!',
           },
         ]} // 此处password如果使用min，max正则，则初始值无法被检测到，换成pattern则无问题
       >
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
-          placeholder="密码:123456"
+          placeholder="请输入密码"
         />
       </Form.Item>
 
@@ -94,6 +91,11 @@ const LoginForm = () => {
         >
           登录
         </Button>
+        <div style={{ flex: 1 }}>
+          <a onClick={() => changeIsLogin()} style={{ float: 'right' }}>
+            去注册
+          </a>
+        </div>
       </Form.Item>
     </Form>
   )

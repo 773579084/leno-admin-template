@@ -1,8 +1,8 @@
 // webpack.base.js
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
+const WebpackBar = require('webpackbar');
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -13,32 +13,11 @@ module.exports = {
   output: {
     filename: 'static/js/[name].[chunkhash:8].js', // 每个输出js的名称
     path: path.resolve(__dirname, '../dist'), // 打包的出口文件夹路径
-    clean: true, // webpack4需要配置clean-webpack-plugin删除dist文件，webpack5内置了。
-    publicPath: isDev ? '/' : './', // 打包后文件的公共前缀路径
+    // clean: true, // webpack4需要配置clean-webpack-plugin删除dist文件，webpack5内置了。
+    publicPath: isDev ? '/' : '/', // 打包后文件的公共前缀路径
   },
   module: {
     rules: [
-      // {
-      //   test: /\.scss$/, //匹配所有的 scss 文件
-      //   enforce: 'pre',
-      //   include: [path.resolve(__dirname, '../src')],
-      //   use: [
-      //     isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
-      //     'css-loader',
-      //     'postcss-loader',
-      //     'sass-loader'
-      //   ]
-      // },
-      // {
-      //   test: /\.css$/, //匹配所有的 css 文件
-      //   enforce: 'pre',
-      //   include: [path.resolve(__dirname, '../src')],
-      //   use: [
-      //     isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
-      //     'css-loader',
-      //     'postcss-loader',
-      //   ]
-      // },
       {
         test: /\.(ts|tsx)$/,
         include: [path.resolve(__dirname, '../src')],
@@ -73,14 +52,14 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: "svg-sprite-loader",
-        include: path.resolve(__dirname, "../src/icons"), //只处理指定svg的文件(所有使用的svg文件放到该文件夹下)
+        include: path.resolve(__dirname, "../src/assets/icons"), //只处理指定svg的文件(所有使用的svg文件放到该文件夹下)
         options: {
           symbolId: "icon-[name]" //symbolId和use使用的名称对应      <use xlinkHref={"#icon-" + iconClass} />
         }
       },
       {
         test: /\.(eot|woff2?|ttf|svg)$/,
-        exclude: path.resolve(__dirname, "../src/icons"), //不处理指定svg的文件(所有使用的svg文件放到该文件夹下)
+        exclude: path.resolve(__dirname, "../src/assets/icons"), //不处理指定svg的文件(所有使用的svg文件放到该文件夹下)
         use: [
           {
             loader: "url-loader",
@@ -104,7 +83,7 @@ module.exports = {
         generator: {
           filename: 'static/media/[name].[contenthash:6][ext]', // 文件输出目录和命名
         },
-      }
+      },
     ]
   },
   resolve: {
@@ -114,14 +93,18 @@ module.exports = {
     },
     modules: [path.resolve(__dirname, '../node_modules')],
   },
+  stats: "none", // stats选项来控制输出的信息 none 禁止所有输出 minimal 最少信息输出
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'),
       inject: true
     }),
-    new webpack.DefinePlugin({
-      'process.env.BASE_ENV': JSON.stringify(process.env.BASE_ENV)
+    // 全局变量文件载入
+    new Dotenv({
+      path: `.env.${process.env.NODE_ENV}`
     }),
+    // 配置打包加载进度动画
+    new WebpackBar()
   ],
   // 开启webpack持久化存储缓存
   cache: {

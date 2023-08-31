@@ -1,11 +1,14 @@
 .layout-tabs {
   position: relative;
-  background-color: white;
-  margin: 0 0 16px 0;
   padding-left: 16px;
+  border-bottom: 1px solid #eae6e6;
 
   .del-icon {
     margin-left: 7px;
+  }
+
+  .layout-tabs-page {
+    width: 80vw;
   }
 
   // 局部修改 antd 样式

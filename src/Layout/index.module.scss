@@ -1,14 +1,7 @@
-@import '@/style/variables.scss';
-
 .layout-container {
   width: 100%;
   height: 100%;
   display: flex;
-
-  .ant-layout {
-    width: 100vw;
-    height: 100%;
-  }
 
   // logo
   .logo {
@@ -16,7 +9,6 @@
     justify-content: space-evenly;
     align-items: center;
     height: 56px;
-    background-color: $themeHeaderColor;
 
     .logo-image {
       width: 30px;
@@ -32,6 +24,14 @@
       font-weight: bold;
       white-space: nowrap;
     }
+  }
+
+  // menu
+  .sider-menu {
+    overflow-y: auto;
+    height: 100%;
+    border-right: 1px solid #eae6e6;
+    padding-bottom: 20px;
   }
 }
 
@@ -54,6 +54,11 @@
 }
 
 // 顶部与内容区背景色
-.site-layout .site-layout-background {
-  background: #fff;
+.site-layout {
+
+  :global {
+    .ant-layout-content{
+      position: relative;
+    }
+  }
 }

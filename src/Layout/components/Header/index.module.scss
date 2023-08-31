@@ -1,4 +1,4 @@
-@import '@/style/variables.scss';
+@import '@/assets/style';
 
 .site-layout-background {
   background: #fff;
@@ -10,28 +10,21 @@
       align-items: center;
       justify-content: space-between;
       height: 56px!important;
-      background-color: $themeHeaderColor!important;
+      line-height: 56px;
 
       .anticon {
-        margin-left: 16px;
+        margin: 0 8px;
         color: white;
-      }
-
-      @mixin header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .header-left,.header-right {
-        @include header;
       }
 
       .ant-avatar {
         margin-right: 16px;
         cursor: pointer;
-        border: 1px solid #000;
       }
     }
   }
+}
+
+.header-left,.header-right {
+  @include dis-center;
 }

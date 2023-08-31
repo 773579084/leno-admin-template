@@ -4,7 +4,7 @@
 
 ## 分支
 
-master -- 基础版 （此版本只有最基础的开发环境）
+`master` -- 上线版（增加 i18n 国际化解决方案）
 
 ## 功能
 
@@ -16,10 +16,10 @@ master -- 基础版 （此版本只有最基础的开发环境）
 
 ```git
 # 克隆项目
-git clone https://gitee.com/zhao-wenchao110/leno-admin-template.git
+git clone https://gitee.com/zhao-wenchao110/Leno-admin.git
 
 # 进入项目目录
-cd leno-admin-template
+cd Leno-admin
 
 # 安装依赖
 npm install

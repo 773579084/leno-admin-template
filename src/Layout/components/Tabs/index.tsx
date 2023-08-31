@@ -1,24 +1,27 @@
 import { message, Tabs } from 'antd'
-import React, { useEffect, useState, useRef } from 'react'
-const { TabPane } = Tabs
+import React, { useEffect } from 'react'
 import { HomeOutlined, CloseOutlined } from '@ant-design/icons'
 import classes from './index.module.scss'
 import { HOME_URL } from '@/config/config'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { commentRoutes } from '@/routes'
-import { IRoute } from '@/type'
+import { tbasType, tbasKeyType } from '@/type'
 import DelTabs from './components/DelTabs'
 // mobx
+import { observer } from 'mobx-react-lite'
+import { toJS } from 'mobx'
 import useStore from '@/store'
+import { RouteType } from '@/type/modules/system/menu'
 
 const TabsCom = () => {
   const {
-    useLayoutStore: { defaultObjMobx, changeTabsListMobx },
+    useRoutersStore: { dynamicRouters },
+    useLayoutStore: { defaultObjMobx, changeTabsListMobx, layoutSet },
   } = useStore()
+  // 删除路由缓存
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const [tabsArr, setTabsArr] = useState(defaultObjMobx.tabsListMobx)
+  const tabsArr = toJS(defaultObjMobx.tabsListMobx) as tbasType[]
 
   //#region  add tabsArr
   useEffect(() => {
@@ -26,37 +29,56 @@ const TabsCom = () => {
   }, [pathname])
 
   const addTabsArr = () => {
-    let route: IRoute = {}
     // 找出当前面包屑路由
-    const currentPath = pathname.split('/')[pathname.split('/').length - 1]
+    let currentPath = pathname.split('/')[pathname.split('/').length - 1]
+    let route = {} as RouteType
+    try {
+      findCurrentRoute(dynamicRouters)
+    } catch (error) {}
 
-    commentRoutes.forEach((item) => {
-      if (JSON.stringify(item).indexOf(currentPath) !== -1) route = item
-    })
-
-    // 递归获得 tab
-    createTab(route)
-    function createTab(route: IRoute) {
-      route.children &&
-        route.children.forEach((item) => {
-          //#region this judge tabsArr is exist pathname
-          let isSetTab = false
-          tabsArr.forEach((tab) => {
-            if (tab.path === pathname) {
-              isSetTab = true
-              return
+    function findCurrentRoute(routes: any) {
+      routes.forEach((_route: RouteType) => {
+        if (_route.children instanceof Array) {
+          findCurrentRoute(_route.children)
+        } else {
+          if (_route.path?.indexOf('/:') !== -1) {
+            if (pathname.indexOf(_route.path?.split('/:')[0] as string) !== -1) {
+              currentPath = pathname.split('/')[pathname.split('/').length - 2]
+              route = _route
+              throw new Error('找到就结束循环')
             }
-          })
-          if (!isSetTab) {
-            let routePath = item.path?.split('/') as string[]
-            if (!routePath[0]) routePath[0] = routePath[1]
-            routePath[0] === currentPath &&
-              setTabsArr([...tabsArr, { path: pathname, title: item.meta?.title as string }])
-            changeTabsListMobx([...tabsArr, { path: pathname, title: item.meta?.title as string }])
+          } else {
+            if (
+              pathname.indexOf(_route.path) !== -1 ||
+              (pathname === '/' && _route.path === HOME_URL)
+            ) {
+              route = _route
+            }
           }
-          //#endregion
-          if (item.children) createTab(item)
-        })
+        }
+      })
+    }
+    // 判断当前的pathname 在 tabsArr里面有没有
+    let isSetTab = false
+    try {
+      tabsArr.forEach((tab) => {
+        if (tab.path === pathname) {
+          isSetTab = true
+          throw new Error('找到就结束循环')
+        }
+      })
+    } catch (error) {}
+
+    if (!isSetTab) {
+      let routePath = route.path?.split('/') as string[]
+
+      if (routePath && !routePath[0]) {
+        routePath[0] = routePath[1]
+      }
+
+      routePath &&
+        routePath[0] === currentPath &&
+        changeTabsListMobx([...tabsArr, { path: pathname, title: route.meta?.title as string }])
     }
   }
   //#endregion
@@ -67,10 +89,14 @@ const TabsCom = () => {
   }
 
   // del tab
-  const delTabFn = (e: any, path: string, delTabType?: string) => {
-    // if del home ，will prompt
+  const delTabFn = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    path: string,
+    delTabType?: string,
+  ) => {
+    // 如果未首页，提示不可删除
     e.stopPropagation()
-    let newTabs: any = []
+    let newTabs: tbasType[] = []
     if (delTabType === 'all') {
       newTabs = tabsArr.filter((item) => item.path === HOME_URL)
       navigate(HOME_URL)
@@ -82,38 +108,42 @@ const TabsCom = () => {
       if (path === HOME_URL) return message.warning('首页不可删除！')
       const currentIndex = tabsArr.findIndex((item) => item.path === path)
       newTabs = tabsArr.filter((item) => item.path !== path)
-      if (path === pathname) navigate(tabsArr[currentIndex - 1].path)
+      if (path === pathname) navigate(tabsArr[currentIndex - 1].path as string)
     }
-    setTabsArr(newTabs)
     changeTabsListMobx(newTabs)
   }
 
+  // 渲染 标签页
+  const items = () => {
+    let tabs = [] as tbasKeyType[]
+    tabsArr.forEach((item) => {
+      tabs.push({
+        label: (
+          <span>
+            {item.path === HOME_URL ? <HomeOutlined /> : ''}
+            {item.title}
+            {item.path !== HOME_URL ? (
+              <CloseOutlined
+                className={classes['del-icon']}
+                onClick={(e) => delTabFn(e, item.path as string)}
+              />
+            ) : null}
+          </span>
+        ),
+        key: item.path,
+      })
+    })
+    return tabs
+  }
+
   return (
-    <div className={classes['layout-tabs']}>
-      <Tabs activeKey={pathname} onChange={navigateFn}>
-        {tabsArr.map((item) => (
-          <TabPane
-            tab={
-              <span>
-                {item.path === HOME_URL ? <HomeOutlined /> : ''}
-                {item.title}
-                {item.path !== HOME_URL ? (
-                  <CloseOutlined
-                    className={classes['del-icon']}
-                    onClick={(e) => delTabFn(e, item.path)}
-                  />
-                ) : (
-                  ''
-                )}
-              </span>
-            }
-            key={item.path}
-          ></TabPane>
-        ))}
-      </Tabs>
+    <div hidden={!layoutSet.tagsView} className={classes['layout-tabs']}>
+      <div className={classes['layout-tabs-page']}>
+        <Tabs activeKey={pathname} onChange={navigateFn} items={items()}></Tabs>
+      </div>
       <DelTabs delTabFn={delTabFn} />
     </div>
   )
 }
 
-export default TabsCom
+export default observer(TabsCom)

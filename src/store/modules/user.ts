@@ -1,44 +1,44 @@
 import { makeAutoObservable } from 'mobx'
 import { makePersistable } from 'mobx-persist-store'
-import { IuserInfo } from '@/type'
+import { IgetInfoType, userType } from '@/type'
 
-export default class useMobxStore {
-  token: string | null = null
-  userInfo = {}
+export default class useUserInfoStore {
+  userInfo = {} as userType
+  roles = [] as string[]
+  permissions = [] as string[]
+  token = '' as string
 
   constructor() {
     // 响应式处理
     makeAutoObservable(this)
-    // makePersistable 数据持久化存储
     makePersistable(this, {
-      name: 'LenoAdmin_dev_1.0.0_token',
-      properties: ['token'],
-      storage: window.localStorage,
+      name: 'lenoAdmin-token', // 存储到localStorage当中的key值是什么，此处为字符串string；
+      properties: ['token'], // 需要持久化的数据是什么，此数据需要为上面声明了的变量，并且传值方式为[string]
+      storage: window.localStorage, // 你的数据需要用那种方式存储，常见的就是localStorage
     })
-    // makePersistable(this, {
-    //   name: 'LenoAdmin_dev_1.0.0_userInfo',
-    //   properties: ['userInfo'],
-    //   storage: window.localStorage,
-    // })
   }
 
-  //#region 处理token
-  // 存储token
+  setUserInfo = (data: IgetInfoType) => {
+    this.userInfo = data.userInfo
+    this.roles = data.roles
+    this.permissions = data.permissions
+  }
+
+  removeUserInfo = () => {
+    this.userInfo = {}
+    this.roles = []
+    this.permissions = []
+  }
+
+  setProfile = (data: userType) => {
+    this.userInfo = data
+  }
+
   setToken = (token: string) => {
     this.token = token
   }
-  //删除token
-  removeToken = () => {
-    this.token = null
-  }
-  // 存储 userinfo
-  setUserInfo = (userInfo: IuserInfo) => {
-    this.userInfo = userInfo
-  }
 
-  // 删除 userInfo
-  removeUserInfo = () => {
-    this.userInfo = {}
+  removeLocalToken = (token: string) => {
+    this.token = token
   }
-  //#endregion
 }

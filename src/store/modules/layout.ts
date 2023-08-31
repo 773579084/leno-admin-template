@@ -1,25 +1,25 @@
 import { makeAutoObservable } from 'mobx'
-import { makePersistable } from 'mobx-persist-store'
-import { IDefaultObj, ITab } from '@/type'
+import { IDefaultObj, IlayoutSetType, IsetLayoutSetType, ITab } from '@/type'
 import { HOME_URL } from '@/config/config'
+// import { makePersistable } from 'mobx-persist-store' // 引入makePersistable方法进行持久化存储
 
-export default class useGlobalStore {
+export default class useLayoutStore {
   defaultObjMobx: IDefaultObj = {
     selectedKeysMobx: [HOME_URL],
-    openKeysMobx: [], // 实时展开数组
-    useEffectOpenKeysMobx: [], // 多级目录状态存储
     breadcrumbListMobx: ['首页'],
     tabsListMobx: [{ path: HOME_URL, title: '首页' }],
+  }
+  layoutSet: IlayoutSetType = {
+    headerTheme: 'darkBlue',
+    theme: '#1890ff',
+    tagsView: true,
+    fixedHeader: true,
+    sidebarLogo: true,
+    dynamicTitle: false,
   }
 
   constructor() {
     makeAutoObservable(this)
-    // 持久化
-    makePersistable(this, {
-      name: 'LenoAdmin_dev_1.0.0_defaultObjMobx',
-      properties: ['defaultObjMobx'],
-      storage: window.localStorage,
-    })
   }
 
   // change tabsListMobx
@@ -37,13 +37,10 @@ export default class useGlobalStore {
     this.defaultObjMobx.breadcrumbListMobx = breadArr
   }
 
-  // change useEffectOpenKeysMobx
-  changeUseEffectOpenKeysMobx = (menuArr: string[]) => {
-    this.defaultObjMobx.useEffectOpenKeysMobx = menuArr
-  }
-
-  // change openKeysMobx
-  changeOpenKeys = (keys: string[]) => {
-    this.defaultObjMobx.openKeysMobx = keys
+  setLayoutSet = (obj: IsetLayoutSetType) => {
+    this.layoutSet = {
+      ...this.layoutSet,
+      ...obj,
+    }
   }
 }

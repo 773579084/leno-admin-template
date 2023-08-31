@@ -1,22 +1,21 @@
-import React from 'react'
-// import { useRoutes } from 'react-router-dom'
-/* 引入路由表 */
-import Router from '@/routes'
 /* 引入工具函数 */
-import './style/App.css'
-import { AuthRouter } from '@/utils'
+import '@/assets/style/App.css'
+import { AuthRouter } from '@/routes/utils/routers'
 /* 全局 Loading */
 import Loading from '@/components/Loading'
+import { Router } from '@/routes/index'
 
-export default function App() {
+const App = () => {
   return (
     <div style={{ height: 100 + '%' }}>
       {/* 注册路由 */}
       <AuthRouter>
         <Router />
       </AuthRouter>
-      {/* Loaing */}
+      {/* 全局 Loaing */}
       <Loading />
     </div>
   )
 }
+
+export default App

@@ -15,13 +15,16 @@ module.exports = {
         "corejs": 3 // 配置使用core-js低版本
       }
     ],
-    "@babel/preset-react",
-    "@babel/preset-typescript"
+    // 配置无需tsx文件内引入React
+    ["@babel/preset-react", {
+      "runtime": "automatic"
+    }],
+    "@babel/preset-typescript",
   ],
   "plugins": [
     isDev && require.resolve('react-refresh/babel'), // 配置react开发环境热替换
     [
       "@babel/plugin-proposal-decorators", { "legacy": true }
-    ]
+    ],
   ].filter(Boolean)
 }

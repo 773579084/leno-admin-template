@@ -39,7 +39,8 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/utils/resize.ts"
+    "src/utils/resize.ts",
+    "src/components/KeepAlive"
   ],
   "exclude": [
     "node_modules",

@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin')
+const WebpackObfuscator = require('webpack-obfuscator');
 
 module.exports = merge(baseConfig, {
   mode: 'production',
@@ -31,10 +32,17 @@ module.exports = merge(baseConfig, {
           'sass-loader'
         ],
         exclude: /node_modules/
-      }
+      },
     ]
   },
   plugins: [
+    // 防爬虫配置(开启过多可能会导致vscode奔溃，配置后会造成打包时间增长,打包体积增大)
+    // new WebpackObfuscator({
+    //   rotateStringArray: false, // 是否对字符串数组进行旋转
+    //   stringArray: false, // 是否将字符串数组转换为十六进制编码
+    //   selfDefending: true, // 是否开启安全防护
+    //   compact: true
+    // }),
     // 复制文件插件
     new CopyPlugin({
       patterns: [
@@ -45,6 +53,11 @@ module.exports = merge(baseConfig, {
             return !source.includes('index.html') // 忽略index.html
           }
         },
+        // 复制防爬虫文件到打包完成后的文件中
+        {
+          from: path.resolve(__dirname, '../robots.txt'),
+          to: path.resolve(__dirname, '../dist'),
+        }
       ],
     }),
     // 抽离css插件

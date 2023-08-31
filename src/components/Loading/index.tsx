@@ -1,4 +1,3 @@
-import React from 'react'
 import classes from './index.module.scss'
 import Spin from './component/spin'
 /* mobx */
