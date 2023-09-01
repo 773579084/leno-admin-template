@@ -2,18 +2,17 @@ import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'antd'
 import classes from './index.module.scss'
-// mobx
 import useStore from '@/store'
 import { HOME_URL } from '@/config/config'
-import { RouteType } from '@/type/modules/system/menu'
+import { RouteType } from '@/type'
 import { toJS } from 'mobx'
 import { observer } from 'mobx-react-lite'
+import { dynamicRouters } from '@/routes'
 
 const BreadcrumbCom = () => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const {
-    useRoutersStore: { dynamicRouters },
     useLayoutStore: { changeBreadCrumbListFn, defaultObjMobx, layoutSet },
   } = useStore()
 

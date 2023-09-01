@@ -6,17 +6,15 @@ import { HOME_URL } from '@/config/config'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { tbasType, tbasKeyType, RouteType } from '@/type'
 import DelTabs from './components/DelTabs'
-// mobx
+import { dynamicRouters } from '@/routes'
 import { observer } from 'mobx-react-lite'
 import { toJS } from 'mobx'
 import useStore from '@/store'
 
 const TabsCom = () => {
   const {
-    useRoutersStore: { dynamicRouters },
     useLayoutStore: { defaultObjMobx, changeTabsListMobx, layoutSet },
   } = useStore()
-  // 删除路由缓存
 
   const navigate = useNavigate()
   const { pathname } = useLocation()

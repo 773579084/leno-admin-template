@@ -26,12 +26,73 @@ import Layout from '@/Layout'
  *   icon:'svg-name'      // 设置该路由的图标，对应路径 src/assets/icons/svg
  * }
  */
+export const dynamicRouters = [
+  {
+    name: 'home',
+    path: '/home',
+    alwaysShow: false,
+    element: lazyLoad(lazy(() => import(`@/views/home`))),
+    hidden: false,
+    query: '',
+    perms: 'home:list',
+    meta: {
+      title: '首页',
+      link: null,
+      noCache: false,
+      icon: 'shouye',
+    },
+  },
+  {
+    name: 'test',
+    path: '/test',
+    alwaysShow: true,
+    hidden: false,
+    children: [
+      {
+        name: 'test1',
+        path: 'test1',
+        query: null,
+        alwaysShow: false,
+        element: '/test/test1',
+        hidden: false,
+        meta: {
+          title: '测试1',
+          link: null,
+          noCache: true,
+          icon: 'online',
+        },
+      },
+      {
+        name: 'test2',
+        path: 'test2',
+        query: null,
+        alwaysShow: false,
+        element: '/test/test2',
+        hidden: false,
+        meta: {
+          title: '测试2',
+          link: null,
+          noCache: true,
+          icon: 'job',
+        },
+      },
+    ],
+    query: null,
+    perms: null,
+    meta: {
+      title: '测试',
+      link: null,
+      noCache: true,
+      icon: 'monitor',
+    },
+  },
+] as RouteType[]
 
 export const rootRouter = [
   // 所有的动态路由都将渲染到该主菜单上
   {
     element: <Layout />,
-    children: [] as RouteType[],
+    children: dynamicRouters,
   },
   {
     path: '/login',
@@ -39,20 +100,6 @@ export const rootRouter = [
     meta: {
       title: '登录页',
     },
-  },
-  {
-    path: '',
-    element: <Layout />,
-    children: [
-      {
-        path: HOME_URL,
-        element: lazyLoad(lazy(() => import(`@/views/home`))),
-        meta: {
-          title: '首页',
-          icon: 'home',
-        },
-      },
-    ],
   },
   {
     path: '/404',
@@ -71,6 +118,11 @@ export const rootRouter = [
   {
     path: '/',
     element: <Navigate to={HOME_URL} />,
+  },
+  {
+    path: '*',
+    element: <Navigate to="/404" />,
+    hidden: true,
   },
 ]
 

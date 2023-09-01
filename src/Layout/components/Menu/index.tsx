@@ -2,22 +2,22 @@ import React, { useState, useEffect } from 'react'
 import type { MenuProps } from 'antd'
 import { Menu } from 'antd'
 import { useNavigate, useLocation } from 'react-router-dom'
-// mobx
 import useStore from '@/store'
 import { toJS } from 'mobx'
 import SvgIcon from '@/components/SvgIcon'
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
 import { RouteType } from '@/type'
 import { PropsType } from '@/type'
+import { dynamicRouters } from '@/routes'
 
 const MenuCom: React.FC<PropsType> = ({ collapsed }) => {
   const {
     useLayoutStore: { changeSelectedKeys, defaultObjMobx },
-    useRoutersStore: { dynamicRouters, directoryList },
+    useRoutersStore: { directoryList },
   } = useStore()
   const { pathname } = useLocation()
   const navigate = useNavigate()
-
+  console.log(19, toJS(dynamicRouters), toJS(directoryList))
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [selectedKeys, setSelectedKeys] = useState<string[]>(defaultObjMobx.selectedKeysMobx)
 

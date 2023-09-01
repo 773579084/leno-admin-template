@@ -1,7 +1,7 @@
 import { useLocation, Navigate } from 'react-router-dom'
 import { getRoutersAPI, getUserAPI } from '@/api/modules/user'
 import { IgetInfoType, RouteType } from '@/type'
-// mobx
+import { dynamicRouters } from '@/routes'
 import useStore from '@/store'
 import { getToken } from '@/utils/auth'
 
@@ -18,7 +18,7 @@ export const AuthRouter: any = (props: { children: RouteType }) => {
   const { pathname } = useLocation()
   const {
     useUserStore: { setUserInfo, userInfo, token, setToken },
-    useRoutersStore: { setRouters },
+    useRoutersStore: { routerDirectory },
   } = useStore()
 
   // 第一步 判断有无 token
@@ -37,10 +37,7 @@ export const AuthRouter: any = (props: { children: RouteType }) => {
             const userInfo = await getUserAPI()
             setUserInfo(userInfo.data.result as IgetInfoType)
 
-            const {
-              data: { result },
-            } = await getRoutersAPI()
-            setRouters(result as RouteType[])
+            routerDirectory(dynamicRouters)
           } catch (error) {}
         }
         getMes()
