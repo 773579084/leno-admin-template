@@ -12,11 +12,11 @@ const root = document.getElementById('root')
 
 if (root) {
   ReactDOM.render(
-    <BrowserRouter>
+    <HashRouter>
       <ConfigProvider locale={zhCN}>
         <App />
       </ConfigProvider>
-    </BrowserRouter>,
+    </HashRouter>,
     root,
   )
 }

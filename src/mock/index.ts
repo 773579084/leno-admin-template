@@ -1,7 +1,7 @@
 import Mock from 'mockjs'
 
 // 登录
-Mock.mock('/dev-api/user/login', 'post', {
+Mock.mock('/mock-api/user/login', 'post', {
   code: 200,
   message: '用户登录成功',
   success: true,
@@ -12,7 +12,7 @@ Mock.mock('/dev-api/user/login', 'post', {
 })
 
 // 注册
-Mock.mock('/dev-api/user/register', 'post', {
+Mock.mock('/mock-api/user/register', 'post', {
   code: 200,
   message: '注册成功',
   success: true,
@@ -23,14 +23,14 @@ Mock.mock('/dev-api/user/register', 'post', {
 })
 
 // 退出登录
-Mock.mock('/dev-api/user/logout', 'delete', {
+Mock.mock('/mock-api/user/logout', 'delete', {
   code: 200,
   message: '退出账号成功',
   success: true,
 })
 
 // 获取用户信息(包含权限)
-Mock.mock('/dev-api/user/getInfo', 'get', {
+Mock.mock('/mock-api/user/getInfo', 'get', {
   code: 200,
   message: '获取用户个人信息成功',
   success: true,
