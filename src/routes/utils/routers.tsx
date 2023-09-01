@@ -36,7 +36,6 @@ export const AuthRouter: any = (props: { children: RouteType }) => {
           try {
             const userInfo = await getUserAPI()
             setUserInfo(userInfo.data.result as IgetInfoType)
-
             routerDirectory(dynamicRouters)
           } catch (error) {}
         }

@@ -11,7 +11,7 @@ import Page500 from '@/views/errMessage/500'
 import Layout from '@/Layout'
 
 /**
- * leno-admin 的路由配置项
+ * 路由配置项（整套路由的判断逻辑都是以下为基准）
  *
  * path:'路径'            // 路径，如果不是多级嵌套，可为 ' '
  * hidden:true           // 设置为true时不会出现在侧边栏
@@ -53,7 +53,7 @@ export const dynamicRouters = [
         path: 'test1',
         query: null,
         alwaysShow: false,
-        element: '/test/test1',
+        element: lazyLoad(lazy(() => import(`@/views/test/test1`))),
         hidden: false,
         meta: {
           title: '测试1',
@@ -67,7 +67,7 @@ export const dynamicRouters = [
         path: 'test2',
         query: null,
         alwaysShow: false,
-        element: '/test/test2',
+        element: lazyLoad(lazy(() => import(`@/views/test/test2`))),
         hidden: false,
         meta: {
           title: '测试2',

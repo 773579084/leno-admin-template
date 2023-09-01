@@ -10,7 +10,7 @@ export default class useRoutersStore {
   }
 
   // 路由表目录路径
-  routerDirectory(routers: RouteType[]) {
+  routerDirectory = (routers: RouteType[]) => {
     const list = [] as string[]
     const keeps = [] as string[]
     function handleRouter(routers: RouteType[], beforePath = '') {
@@ -19,8 +19,6 @@ export default class useRoutersStore {
           list.push((beforePath + router.path) as string)
           handleRouter(router.children, (router.path + '/') as string)
         } else {
-          // 无子元素则判断是否需要缓存
-
           if (router.meta?.noCache) {
             keeps.push(beforePath + router.path)
           }

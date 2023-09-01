@@ -9,6 +9,7 @@ import { ItemType } from 'antd/lib/menu/hooks/useItems'
 import { RouteType } from '@/type'
 import { PropsType } from '@/type'
 import { dynamicRouters } from '@/routes'
+import { observer } from 'mobx-react-lite'
 
 const MenuCom: React.FC<PropsType> = ({ collapsed }) => {
   const {
@@ -17,7 +18,7 @@ const MenuCom: React.FC<PropsType> = ({ collapsed }) => {
   } = useStore()
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  console.log(19, toJS(dynamicRouters), toJS(directoryList))
+
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [selectedKeys, setSelectedKeys] = useState<string[]>(defaultObjMobx.selectedKeysMobx)
 
@@ -167,4 +168,4 @@ const MenuCom: React.FC<PropsType> = ({ collapsed }) => {
   )
 }
 
-export default MenuCom
+export default observer(MenuCom)
