@@ -17,6 +17,7 @@ const LoginForm = (props: any) => {
   const onFinish = async (data: ILogin) => {
     try {
       const res = await loginAPI({ ...data })
+
       if (res.data.code !== 200) {
         message.error(res.data.message)
         return

@@ -90,12 +90,6 @@ export interface IGetUserInfoAPI {
   result: IgetInfoType
 }
 
-export interface getRouterApiType {
-  code: number
-  message: string
-  result?: RouteType[]
-}
-
 export interface RouteType {
   query?: string | undefined
   name?: string

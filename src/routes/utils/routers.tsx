@@ -1,5 +1,5 @@
 import { useLocation, Navigate } from 'react-router-dom'
-import { getRoutersAPI, getUserAPI } from '@/api/modules/user'
+import {  getUserAPI } from '@/api/modules/user'
 import { IgetInfoType, RouteType } from '@/type'
 import { dynamicRouters } from '@/routes'
 import useStore from '@/store'

@@ -1,12 +1,5 @@
 import { http } from '@/api'
-import {
-  ILoginApi,
-  IRegisterApi,
-  ILogin,
-  IGetUserInfoAPI,
-  IsucceeMes,
-  getRouterApiType,
-} from '@/type'
+import { ILoginApi, IRegisterApi, ILogin, IGetUserInfoAPI, IsucceeMes } from '@/type'
 
 // 登录
 export const loginAPI = (data: ILogin) => {
@@ -21,11 +14,6 @@ export const registerAPI = (data: ILogin) => {
 // 退出登录
 export const logoutAPI = () => {
   return http<IsucceeMes>('DELETE', '/user/logout')
-}
-
-// 获取路由
-export const getRoutersAPI = () => {
-  return http<getRouterApiType>('GET', '/user/menu/getRouters')
 }
 
 // 获取用户信息(包含权限)

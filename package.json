@@ -51,6 +51,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "@types/js-cookie": "^3.0.2",
+    "@types/mockjs": "^1.0.7",
     "@types/node-cron": "^3.0.7",
     "@types/react": "^18.0.12",
     "@types/react-color": "^3.0.6",
@@ -117,20 +118,17 @@
   },
   "dependencies": {
     "antd": "^4.24.5",
-    "antd-img-crop": "^4.8.0",
     "axios": "^0.27.2",
-    "dayjs": "^1.11.6",
     "js-cookie": "^3.0.1",
     "mobx": "^6.6.1",
     "mobx-persist-store": "^1.0.6",
     "mobx-react-lite": "^3.4.0",
+    "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
-    "react-activation": "^0.12.4",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-    "react-syntax-highlighter": "^15.4.5",
     "screenfull": "^6.0.2"
   }
 }

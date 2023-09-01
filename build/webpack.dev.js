@@ -23,15 +23,15 @@ module.exports = merge(baseConfig, {
       'Access-Control-Allow-Origin': '*'
     },
     // 跨域配置
-    proxy: {
-      '/dev-api': {
-        target: 'http://localhost:9090',
-        changeOrigin: true, // 是否开启跨域
-        pathRewrite: {
-          '^/dev-api': '' // 将/dev-api前缀替换为空字符串
-        }
-      },
-    },
+    // proxy: {
+    //   '/dev-api': {
+    //     target: 'http://localhost:9090',
+    //     changeOrigin: true, // 是否开启跨域
+    //     pathRewrite: {
+    //       '^/dev-api': '' // 将/dev-api前缀替换为空字符串
+    //     }
+    //   },
+    // },
     static: { //托管静态资源文件
       directory: path.join(__dirname, "../public"),
     },
