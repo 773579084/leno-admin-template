@@ -41,7 +41,7 @@ const Home = () => {
                   ghost
                   icon={<GithubOutlined />}
                   onClick={() => {
-                    window.open('https://github.com/773579084/Leno_Admin')
+                    window.open('https://github.com/773579084/-Leno_Admin_Template')
                   }}
                 >
                   GitHub
