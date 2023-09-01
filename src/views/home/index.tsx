@@ -7,7 +7,7 @@ const { Panel } = Collapse
 const Home = () => {
   return (
     <div className="app-container">
-      <Row gutter={[50, 16]}>
+      <Row gutter={30}>
         <Col span={12}>
           <h1>leno-admin-template 后台基础框架</h1>
           <p style={{ color: '#696c6e' }}>
