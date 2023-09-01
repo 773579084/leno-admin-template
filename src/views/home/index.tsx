@@ -9,10 +9,14 @@ const Home = () => {
     <div className="app-container">
       <Row gutter={[50, 16]}>
         <Col span={12}>
-          <h1>Leno Admin 后台管理框架</h1>
+          <h1>leno-admin-template 后台基础框架</h1>
           <p style={{ color: '#696c6e' }}>
-            日常中，常借鉴于若依框架，发现它确实拥有很多优点；一次察觉若依似乎还未有支持前端React和后端nodejs的版本；故而突发奇想，便有了现在的Leno
-            Admin；秉承着开源精神，Leno Admin代码文档将完全开源，给你的项目多一种参考与选择。
+            leno-admin-template脱胎于
+            <a href="https://gitee.com/zhao-wenchao110/leno_-admin" target="_blank">
+              leno-admin前后端分离框架
+            </a>
+            ；基于react+ts+antd+webpack5开发的后台基础框架，拥有完善的路由配置、舒适的过渡效果、丰富多彩的可变主题、另外还配置了面包屑与tabs
+            ；秉承着开源精神，leno-admin-template代码将完全开源，你可以在此基础上开发你的任何项目。
           </p>
           <p>
             <b>当前版本:</b> <span> v1.0.0</span>
@@ -25,7 +29,7 @@ const Home = () => {
                   ghost
                   icon={<GoogleOutlined />}
                   onClick={() => {
-                    window.open('https://gitee.com/zhao-wenchao110/leno_-admin')
+                    window.open('https://gitee.com/zhao-wenchao110/leno-admin-template')
                   }}
                 >
                   Gitee
@@ -57,19 +61,6 @@ const Home = () => {
           </Row>
           <Row>
             <Col span={6}>
-              <h4>后端技术</h4>
-              <ul>
-                <li>Koa</li>
-                <li>sequelize</li>
-                <li>socket.io</li>
-                <li>typescript</li>
-                <li>exceljs</li>
-                <li>joi</li>
-                <li>...</li>
-              </ul>
-            </Col>
-            <Col span={6}>
-              <h4>前端技术</h4>
               <ul>
                 <li>React Hooks</li>
                 <li>mobx</li>
@@ -89,7 +80,7 @@ const Home = () => {
         <Col span={8}>
           <Card title="联系信息">
             <div>
-              <SendOutlined /> 官网：
+              <SendOutlined /> leno-admin文档：
               <a href="http://zhao-wenchao110.gitee.io/lenoadmin-docs" target="_blank">
                 http://zhao-wenchao110.gitee.io/lenoadmin-docs
               </a>
@@ -102,8 +93,8 @@ const Home = () => {
         <Col span={8}>
           <Card title="更新日志">
             <Collapse accordion bordered={false} ghost>
-              <Panel header="v1.0.0 2023-08-22" key="1">
-                <p>1、Leno Admin前后端分离系统正式发布</p>
+              <Panel header="v1.0.0 2023-09-01" key="1">
+                <p>1、leno-admin-template 后台基础框架正式发布</p>
               </Panel>
             </Collapse>
           </Card>
