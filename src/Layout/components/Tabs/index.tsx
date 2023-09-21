@@ -8,12 +8,12 @@ import { tbasType, tbasKeyType, RouteType } from '@/type';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
 import useStore from '@/store';
+import { dynamicRouters } from '@/routes';
 import DelTabs from './components/DelTabs';
 import classes from './index.module.scss';
 
 const TabsCom = () => {
   const {
-    useRoutersStore: { dynamicRouters },
     useLayoutStore: { defaultObjMobx, changeTabsListMobx, layoutSet },
   } = useStore();
   // 删除路由缓存
