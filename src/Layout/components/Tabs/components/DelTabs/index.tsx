@@ -1,8 +1,8 @@
 import { Button, Dropdown } from 'antd'
 import type { MenuProps } from 'antd'
-import classes from './index.module.scss'
 import { CloseOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import { useLocation } from 'react-router-dom'
+import classes from './index.module.scss'
 
 const DelTabs = (props: any) => {
   const { pathname } = useLocation()

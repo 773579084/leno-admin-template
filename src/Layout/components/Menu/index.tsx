@@ -1,84 +1,73 @@
-import React, { useState, useEffect } from 'react'
-import type { MenuProps } from 'antd'
-import { Menu } from 'antd'
-import { useNavigate, useLocation } from 'react-router-dom'
-import useStore from '@/store'
-import { toJS } from 'mobx'
-import SvgIcon from '@/components/SvgIcon'
-import { ItemType } from 'antd/lib/menu/hooks/useItems'
-import { RouteType } from '@/type'
-import { PropsType } from '@/type'
-import { dynamicRouters } from '@/routes'
-import { observer } from 'mobx-react-lite'
+import React, { useState, useEffect } from 'react';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom';
+import useStore from '@/store';
+import { toJS } from 'mobx';
+import SvgIcon from '@/components/SvgIcon';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import { RouteType, PropsType } from '@/type';
+import { dynamicRouters } from '@/routes';
+import { observer } from 'mobx-react-lite';
 
 const MenuCom: React.FC<PropsType> = ({ collapsed }) => {
   const {
     useLayoutStore: { changeSelectedKeys, defaultObjMobx },
     useRoutersStore: { directoryList },
-  } = useStore()
-  const { pathname } = useLocation()
-  const navigate = useNavigate()
+  } = useStore();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-  const [openKeys, setOpenKeys] = useState<string[]>([])
-  const [selectedKeys, setSelectedKeys] = useState<string[]>(defaultObjMobx.selectedKeysMobx)
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(defaultObjMobx.selectedKeysMobx);
 
   useEffect(() => {
-    if (!collapsed)
-      setOpenKeys(
-        directoryList.filter((item) => {
-          return pathname.indexOf(item) !== -1
-        }),
-      )
-  }, [collapsed])
+    if (!collapsed) setOpenKeys(directoryList.filter((item) => pathname.indexOf(item) !== -1));
+  }, [collapsed]);
 
-  //#region 保存 menu 展开
-  const onOpenChange = (openKeys: string[]) => {
-    const lastKeyName = openKeys[openKeys.length - 1] && openKeys[openKeys.length - 1].split('/')[1]
+  // #region 保存 menu 展开
+  const onOpenChange = (openKeyLists: string[]) => {
+    const lastKeyName = openKeyLists[openKeyLists.length - 1] && openKeyLists[openKeyLists.length - 1].split('/')[1];
 
-    if (openKeys.length > 1) {
-      for (let i = openKeys.length - 2; i >= 0; i--) {
-        if (openKeys[i].indexOf(lastKeyName) === -1) {
+    if (openKeyLists.length > 1) {
+      // eslint-disable-next-line no-plusplus
+      for (let i = openKeyLists.length - 2; i >= 0; i--) {
+        if (openKeyLists[i].indexOf(lastKeyName) === -1) {
           // 如果和之前的openKeys都不一样，则说明换目录了，赋值最新的值
-          setOpenKeys([openKeys[openKeys.length - 1]])
+          setOpenKeys([openKeyLists[openKeyLists.length - 1]]);
 
-          return
+          return;
         }
       }
     }
-    setOpenKeys(openKeys)
-  }
-  //#endregion
+    setOpenKeys(openKeyLists);
+  };
+  // #endregion
 
-  type MenuItem = Required<MenuProps>['items'][number]
-  function getItem(
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[] | null,
-    query?: string,
-  ): MenuItem {
+  type MenuItem = Required<MenuProps>['items'][number];
+  function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[] | null, query?: string): MenuItem {
     return {
       label,
       key,
       icon,
       children,
       query,
-    } as MenuItem
+    } as MenuItem;
   }
 
   // 生成  menu
-  function createMenuFn(dynamicRouters: RouteType[], isAlwaysShow?: boolean, onPath: string = '') {
-    const newItems: ItemType[] = []
+  function createMenuFn(dynamicRouterList: RouteType[], isAlwaysShow?: boolean, onPath = '') {
+    const newItems: ItemType[] = [];
 
-    toJS(dynamicRouters).forEach((route: RouteType) => {
+    dynamicRouterList.forEach((route: RouteType) => {
       if (route.alwaysShow || isAlwaysShow) {
         if (!route.hidden) {
           // 多级目录
-          let frontPath: string = ''
+          let frontPath = '';
           if (!onPath) {
-            frontPath = route.path as string
+            frontPath = route.path as string;
           } else {
-            frontPath = onPath + '/' + route.path
+            frontPath = `${onPath}/${route.path}`;
           }
 
           newItems.push(
@@ -95,10 +84,11 @@ const MenuCom: React.FC<PropsType> = ({ collapsed }) => {
               route.children && createMenuFn(route.children, true, frontPath),
               route.query,
             ),
-          )
+          );
         }
       } else {
         // 单级目录
+        // eslint-disable-next-line no-lonely-if
         if (!route.hidden) {
           newItems.push(
             getItem(
@@ -114,58 +104,44 @@ const MenuCom: React.FC<PropsType> = ({ collapsed }) => {
               null,
               route.query,
             ),
-          )
+          );
         }
       }
-    })
-    return newItems
+    });
+    return newItems;
   }
 
-  const items: MenuItem[] = createMenuFn(toJS(dynamicRouters))
+  const items: MenuItem[] = createMenuFn(toJS(dynamicRouters));
 
-  //#region  点击 item 跳转路由 && 持久化 menu 选中
+  // #region  点击 item 跳转路由 && 持久化 menu 选中
   const navigateFn: MenuProps['onClick'] = ({ key, item }) => {
     // 因为在统一路由生成的时候，所有path路径都在前面加了/
-    const pattern = /^(\/http|\/https):\/\//
+    const pattern = /^(\/http|\/https):\/\//;
 
-    const newItem = item as unknown as { props: { query: string } }
-    let query = {}
-    if (newItem.props.query) query = JSON.parse(newItem.props.query)
+    const newItem = item as unknown as { props: { query: string } };
+    let query = {};
+    if (newItem.props.query) query = JSON.parse(newItem.props.query);
 
     // 路由跳转
     if (!pattern.test(key)) {
-      navigate(key, { state: query })
+      navigate(key, { state: query });
     }
 
-    changeSelectedKeys([key])
-  }
-  //#endregion
+    changeSelectedKeys([key]);
+  };
+  // #endregion
 
   // 监听当前路径变化
   useEffect(() => {
     // 当前路径 属于那一层目录
-    setOpenKeys(
-      directoryList.filter((item) => {
-        return pathname.indexOf(item) !== -1
-      }),
-    )
+    setOpenKeys(directoryList.filter((item) => pathname.indexOf(item) !== -1));
 
     // 控制menu选中变色
-    setSelectedKeys([pathname])
-    changeSelectedKeys([pathname])
-  }, [pathname])
+    setSelectedKeys([pathname]);
+    changeSelectedKeys([pathname]);
+  }, [pathname]);
 
-  return (
-    <Menu
-      theme="light"
-      mode="inline"
-      onSelect={navigateFn}
-      selectedKeys={selectedKeys}
-      openKeys={openKeys}
-      onOpenChange={onOpenChange}
-      items={items}
-    />
-  )
-}
+  return <Menu theme="light" mode="inline" onSelect={navigateFn} selectedKeys={selectedKeys} openKeys={openKeys} onOpenChange={onOpenChange} items={items} />;
+};
 
-export default observer(MenuCom)
+export default observer(MenuCom);

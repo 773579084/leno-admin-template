@@ -1,9 +1,9 @@
-import { useLocation, Navigate } from 'react-router-dom'
-import {  getUserAPI } from '@/api/modules/user'
-import { IgetInfoType, RouteType } from '@/type'
-import { dynamicRouters } from '@/routes'
-import useStore from '@/store'
-import { getToken } from '@/utils/auth'
+import { useLocation, Navigate } from 'react-router-dom';
+import { getUserAPI } from '@/api/modules/user';
+import { IgetInfoType, RouteType } from '@/type';
+import { dynamicRouters } from '@/routes';
+import useStore from '@/store';
+import { getToken } from '@/utils/auth';
 
 /**
  * @description 递归查询对应的路由
@@ -12,43 +12,40 @@ import { getToken } from '@/utils/auth'
  * @returns array
  */
 // 设置白名单
-const whitePaths = ['/login', '/register', '/404', '/500']
+const whitePaths = ['/login', '/register', '/404', '/500'];
 // 路由守卫配置函数
 export const AuthRouter: any = (props: { children: RouteType }) => {
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
   const {
     useUserStore: { setUserInfo, userInfo, token, setToken },
     useRoutersStore: { routerDirectory },
-  } = useStore()
+  } = useStore();
 
   // 第一步 判断有无 token
   if (getToken()) {
-    if (!token) setToken(getToken())
+    if (!token) setToken(getToken());
 
     // 第二步 判断是否前往login页面，等于跳转 '/', 不等于则继续判断
     if (pathname === '/login') {
-      return <Navigate to="/" replace />
-    } else {
-      // 第三步 判断是否拿到用户个人信息、路由、权限，没拿到则进行axios请求数据，进行信息存储及权限路由渲染，否则直接放行
-      if (Object.keys(userInfo).length < 1 || !userInfo) {
-        // 获取用户个人信息
-        async function getMes() {
-          try {
-            const userInfo = await getUserAPI()
-            setUserInfo(userInfo.data.result as IgetInfoType)
-            routerDirectory(dynamicRouters)
-          } catch (error) {}
-        }
-        getMes()
-      }
+      return <Navigate to="/" replace />;
+    }
+    // 第三步 判断是否拿到用户个人信息、路由、权限，没拿到则进行axios请求数据，进行信息存储及权限路由渲染，否则直接放行
+    if (Object.keys(userInfo).length < 1 || !userInfo) {
+      // 获取用户个人信息
+      const getMes = async () => {
+        try {
+          const userMes = await getUserAPI();
+          setUserInfo(userMes.data.result as IgetInfoType);
+          routerDirectory(dynamicRouters);
+        } catch (error) {}
+      };
+      getMes();
+    }
 
-      return props.children
-    }
-  } else {
-    if (whitePaths.includes(pathname)) {
-      return props.children
-    } else {
-      return <Navigate to="/login" replace />
-    }
+    return props.children;
   }
-}
+  if (whitePaths.includes(pathname)) {
+    return props.children;
+  }
+  return <Navigate to="/login" replace />;
+};

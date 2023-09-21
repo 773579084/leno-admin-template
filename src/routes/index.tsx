@@ -1,14 +1,14 @@
-import { lazy } from 'react'
-import { Navigate, useRoutes } from 'react-router-dom'
-import { HOME_URL } from '@/config/config'
-import { RouteType } from '@/type'
-import lazyLoad from '@/routes/utils/lazyLoad'
+import { lazy } from 'react';
+import { Navigate, useRoutes } from 'react-router-dom';
+import { HOME_URL } from '@/config/config';
+import { RouteType } from '@/type';
+import lazyLoad from '@/routes/utils/lazyLoad';
 
 /* 主干路由页面 */
-import Login from '@/views/login'
-import Page404 from '@/views/errMessage/404'
-import Page500 from '@/views/errMessage/500'
-import Layout from '@/Layout'
+import Login from '@/views/login';
+import Page404 from '@/views/errMessage/404';
+import Page500 from '@/views/errMessage/500';
+import Layout from '@/Layout';
 
 /**
  * 路由配置项（整套路由的判断逻辑都是以下为基准）
@@ -86,7 +86,7 @@ export const dynamicRouters = [
       icon: 'monitor',
     },
   },
-] as RouteType[]
+] as RouteType[];
 
 export const rootRouter = [
   // 所有的动态路由都将渲染到该主菜单上
@@ -124,9 +124,9 @@ export const rootRouter = [
     element: <Navigate to="/404" />,
     hidden: true,
   },
-]
+];
 
 export const Router = () => {
-  const routes = useRoutes(rootRouter)
-  return routes
-}
+  const routes = useRoutes(rootRouter);
+  return routes;
+};

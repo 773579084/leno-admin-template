@@ -1,4 +1,4 @@
-import Mock from 'mockjs'
+import Mock from 'mockjs';
 
 // 登录
 Mock.mock('/mock-api/user/login', 'post', {
@@ -7,9 +7,10 @@ Mock.mock('/mock-api/user/login', 'post', {
   success: true,
   result: {
     token:
+      // eslint-disable-next-line max-len
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJOYW1lIjoiYWRtaW4iLCJzZXNzaW9uIjoibXNkanFvbTJudWpuc2VhdjB2cDFzMmhlbmh5MTl0IiwiZXhwIjo0ODQ5MjEyMjg4NjM2LCJpYXQiOjE2OTM1Mzg2ODh9.LBujNzKhAYCxR8eKV7ZhulMa1q4hZ5yd6sdQtuDYsDY',
   },
-})
+});
 
 // 注册
 Mock.mock('/mock-api/user/register', 'post', {
@@ -20,14 +21,14 @@ Mock.mock('/mock-api/user/register', 'post', {
     userId: 56,
     userName: 'admin1',
   },
-})
+});
 
 // 退出登录
 Mock.mock('/mock-api/user/logout', 'delete', {
   code: 200,
   message: '退出账号成功',
   success: true,
-})
+});
 
 // 获取用户信息(包含权限)
 Mock.mock('/mock-api/user/getInfo', 'get', {
@@ -90,4 +91,4 @@ Mock.mock('/mock-api/user/getInfo', 'get', {
     roles: ['admin'],
     permissions: ['*:*:*'],
   },
-})
+});
